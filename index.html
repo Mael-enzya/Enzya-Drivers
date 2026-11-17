@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>ENZYA DR — Transport</title>
+<style>
+:root{--navy:#101827;--navy2:#172337;--gold:#e7b84b;--ink:#182235;--muted:#697586;--bg:#f3f5f8;--white:#fff;--green:#16865b;--red:#b83c45}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--navy);color:#fff;padding:22px 18px 18px}header .top{display:flex;align-items:center;justify-content:space-between;max-width:980px;margin:auto}
+.brand{font-size:22px;font-weight:900;letter-spacing:1.2px}.brand span{color:var(--gold)}.tag{font-size:12px;color:#b9c3d2;margin-top:4px}
+.pill{font-size:11px;border:1px solid #46536a;padding:7px 10px;border-radius:30px;color:#d8dfeb}
+main{max-width:980px;margin:20px auto;padding:0 14px 45px}
+.notice{background:#fff8e8;border:1px solid #f1d99e;padding:12px 14px;border-radius:12px;font-size:13px;line-height:1.5;margin-bottom:16px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.tabs button{border:0;border-radius:12px;padding:13px 6px;background:#e2e7ef;color:#344054;font-weight:700}
+.tabs button.active{background:var(--navy);color:#fff}
+.panel{display:none}.panel.active{display:block}
+.card{background:#fff;border:1px solid #e4e8ef;border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 4px 16px #1723370a}
+h1{font-size:23px;margin:0 0 6px}h2{font-size:18px;margin:0 0 14px}h3{font-size:15px;margin:0 0 10px}
+.sub{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 16px}
+label{display:block;font-size:12px;font-weight:700;color:#475467;margin:12px 0 6px}
+input,select,textarea{width:100%;border:1px solid #d6dce5;border-radius:10px;padding:12px;font:inherit;font-size:14px;background:#fff;color:var(--ink)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{border:0;border-radius:11px;background:var(--gold);color:#211b0e;font-weight:800;padding:13px 16px;width:100%;margin-top:14px;font-size:14px}
+.btn.dark{background:var(--navy);color:#fff}.btn.outline{background:#fff;border:1px solid #cbd3df;color:var(--ink)}
+.price{font-size:30px;font-weight:900;color:var(--navy)}.small{font-size:12px;color:var(--muted)}
+.status{display:inline-block;border-radius:30px;background:#e8f6ef;color:var(--green);padding:5px 9px;font-size:11px;font-weight:800}
+.metricrow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.metric{background:#f4f6f9;border-radius:12px;padding:12px}.metric b{display:block;font-size:20px}.metric span{font-size:11px;color:var(--muted)}
+.listitem{border-top:1px solid #edf0f4;padding:12px 0;font-size:13px;line-height:1.55}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.hidden{display:none!important}
+footer{text-align:center;color:#8993a2;font-size:11px;padding:20px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.metricrow{grid-template-columns:repeat(3,1fr)}.card{padding:15px}header{padding-top:18px}}
+</style>
+</head>
+<body>
+<header><div class="top"><div><div class="brand">ENZYA <span>DR</span></div><div class="tag">Votre déplacement, notre priorité.</div></div><div class="pill">LUBUMBASHI</div></div></header>
+<main>
+<div class="notice"><b>Prototype de démonstration.</b> Les commandes, tarifs et écrans sont testables sur cet appareil. Le GPS réel partagé entre utilisateurs, les notifications à distance et les paiements intégrés nécessitent ensuite un serveur sécurisé et des comptes de production.</div>
+<div class="tabs" role="tablist">
+<button class="active" data-tab="client">Client</button><button data-tab="driver">Chauffeur</button><button data-tab="admin">Administration</button>
+</div>
+
+<section id="client" class="panel active">
+<div class="card">
+<h1>Commander un taxi</h1><p class="sub">Indique ton trajet. Le tarif affiché est celui configuré par l’administration.</p>
+<label>Départ</label><input id="pickup" placeholder="Ex. Golf, Lubumbashi">
+<label>Destination</label><input id="destination" placeholder="Ex. Centre-ville">
+<div class="grid"><div><label>Type de course</label><select id="rideType"><option value="normal">Course normale</option><option value="booking">Réservation / Booking</option></select></div><div><label>Date et heure (booking)</label><input id="rideWhen" type="datetime-local"></div></div>
+<div class="row" style="margin-top:16px"><div><div class="small">Tarif estimé</div><div class="price" id="fare">$3 000</div></div><span class="status">Tarif administrable</span></div>
+<button class="btn" id="requestRide">Demander un taxi</button>
+<div id="clientFeedback" class="small" style="margin-top:12px" aria-live="polite"></div>
+</div>
+<div class="card"><h2>Paiement mobile</h2><p class="sub">Après confirmation du chauffeur, contacte le service pour les modalités de paiement.</p>
+<div class="listitem"><b>Vodacom</b> — 0828088525</div><div class="listitem"><b>Orange</b> — 085711127</div>
+<p class="small">Les paiements ne sont pas débités automatiquement dans cette version.</p></div>
+<div class="card"><h2>Mes demandes sur cet appareil</h2><div id="clientRides" class="small">Aucune demande pour le moment.</div></div>
+</section>
+
+<section id="driver" class="panel">
+<div class="card"><h1>Espace chauffeur</h1><p class="sub">Interface de démonstration pour consulter et gérer les demandes enregistrées sur ce même appareil.</p>
+<div class="row"><div><b>Disponibilité</b><div class="small">Active ou désactive la réception des courses</div></div><select id="driverAvailability" style="width:145px"><option value="online">Disponible</option><option value="offline">Indisponible</option></select></div>
+<label>Nom du chauffeur</label><input id="driverName" placeholder="Nom complet">
+<label>Numéro de téléphone</label><input id="driverPhone" placeholder="+243 ...">
+<button class="btn dark" id="saveDriver">Enregistrer mon profil</button><div id="driverFeedback" class="small" style="margin-top:8px"></div>
+</div>
+<div class="card"><h2>Demandes de courses</h2><div id="driverRides" class="small">Aucune demande disponible.</div></div>
+<div class="card"><h2>Position GPS</h2><p class="sub">Autorise la localisation pour afficher ta position sur cet appareil. Elle n’est pas transmise à l’administration dans cette démonstration.</p><button class="btn outline" id="locate">Obtenir ma position</button><div id="gpsResult" class="small" style="margin-top:10px"></div></div>
+</section>
+
+<section id="admin" class="panel">
+<div class="card"><h1>Administration</h1><p class="sub">Réglage des prix et suivi des demandes sur cet appareil. Les changements sont conservés dans le navigateur.</p>
+<div class="metricrow"><div class="metric"><b id="totalRides">0</b><span>Demandes</span></div><div class="metric"><b id="acceptedRides">0</b><span>Acceptées</span></div><div class="metric"><b id="driversOnline">0</b><span>Chauffeur(s)</span></div></div>
+<h3 style="margin-top:18px">Tarifs en francs congolais (CDF)</h3>
+<div class="grid"><div><label>Course normale</label><input id="normalPrice" type="number" min="0"></div><div><label>Booking / réservation</label><input id="bookingPrice" type="number" min="0"></div></div>
+<button class="btn dark" id="savePrices">Enregistrer les tarifs</button><div id="adminFeedback" class="small" style="margin-top:8px"></div>
+</div>
+<div class="card"><h2>Toutes les demandes</h2><div id="adminRides" class="small">Aucune demande.</div></div>
+<div class="card"><h2>Rappel sécurité</h2><p class="sub">Avant un lancement public, il faudra sécuriser l’accès administrateur par mot de passe, stocker les données sur un serveur, vérifier les chauffeurs et connecter un vrai service de notifications et de géolocalisation en temps réel.</p></div>
+</section>
+</main>
+<footer>ENZYA DR · Prototype initial · Lubumbashi</footer>
+<script>
+const $=id=>document.getElementById(id);
+const defaults={normal:3000,booking:10000};
+function load(){try{return JSON.parse(localStorage.getItem('enzyaData'))||{prices:defaults,rides:[],driver:null}}catch(e){return{prices:defaults,rides:[],driver:null}}}
+let data=load();
+function save(){localStorage.setItem('enzyaData',JSON.stringify(data));}
+function money(n){return Number(n).toLocaleString('fr-FR')+' CDF'}
+function updateFare(){$('fare').textContent=money(data.prices[$('rideType').value]);}
+function render(){
+$('normalPrice').value=data.prices.normal;$('bookingPrice').value=data.prices.booking;
+$('totalRides').textContent=data.rides.length;$('acceptedRides').textContent=data.rides.filter(r=>r.status==='Acceptée').length;
+$('driversOnline').textContent=data.driver&&data.driver.online?1:0;
+const card=r=>`<div class="listitem"><div class="row"><b>${r.from} → ${r.to}</b><span class="status">${r.status}</span></div><div>${r.type==='booking'?'Booking':'Normale'} · ${money(r.price)}</div><div class="small">${r.when||r.created}</div></div>`;
+$('clientRides').innerHTML=data.rides.length?data.rides.slice().reverse().map(card).join(''):'Aucune demande pour le moment.';
+$('adminRides').innerHTML=data.rides.length?data.rides.slice().reverse().map((r,i)=>{let idx=data.rides.length-1-i;return `<div class="listitem"><b>${r.from} → ${r.to}</b><br>${r.type==='booking'?'Booking':'Normale'} · ${money(r.price)} · ${r.status}<div class="row"><button class="btn outline" style="width:auto;padding:8px 10px;margin:8px 4px 0 0" onclick="setStatus(${idx},'Acceptée')">Accepter</button><button class="btn outline" style="width:auto;padding:8px 10px;margin:8px 0 0" onclick="setStatus(${idx},'Terminée')">Terminer</button></div></div>`}).join(''):'Aucune demande.';
+$('driverRides').innerHTML=data.rides.length?data.rides.slice().reverse().map((r,i)=>{let idx=data.rides.length-1-i;return `<div class="listitem"><b>${r.from} → ${r.to}</b><br>${r.type==='booking'?'Booking':'Normale'} · ${money(r.price)}<br><span class="status">${r.status}</span>${r.status==='En attente'?`<button class="btn" onclick="setStatus(${idx},'Acceptée')">Accepter la course</button>`:''}</div>`}).join(''):'Aucune demande disponible.';
+$('driverAvailability').value=data.driver&&data.driver.online?'online':'offline';
+}
+window.setStatus=(i,status)=>{data.rides[i].status=status;save();render();};
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.tab));render();}));
+$('rideType').addEventListener('change',updateFare);
+$('requestRide').addEventListener('click',()=>{let from=$('pickup').value.trim(),to=$('destination').value.trim(),type=$('rideType').value;if(!from||!to){$('clientFeedback').textContent='Indique le départ et la destination.';return;}let when=type==='booking'?$('rideWhen').value:'';if(type==='booking'&&!when){$('clientFeedback').textContent='Choisis la date et l’heure de réservation.';return;}data.rides.push({from,to,type,when,price:data.prices[type],status:'En attente',created:new Date().toLocaleString('fr-FR')});save();$('clientFeedback').textContent='Demande enregistrée sur cet appareil. Un chauffeur ne la recevra pas sur un autre téléphone dans cette version.';$('pickup').value='';$('destination').value='';render();});
+$('savePrices').addEventListener('click',()=>{let n=Number($('normalPrice').value),b=Number($('bookingPrice').value);if(n<0||b<0||!Number.isFinite(n)||!Number.isFinite(b)){$('adminFeedback').textContent='Entre des montants valides.';return;}data.prices={normal:n,booking:b};save();updateFare();$('adminFeedback').textContent='Tarifs enregistrés sur cet appareil.';render();});
+$('saveDriver').addEventListener('click',()=>{data.driver={name:$('driverName').value.trim(),phone:$('driverPhone').value.trim(),online:$('driverAvailability').value==='online'};save();$('driverFeedback').textContent='Profil enregistré sur cet appareil.';render();});
+$('driverAvailability').addEventListener('change',()=>{if(!data.driver)data.driver={name:'',phone:'',online:false};data.driver.online=$('driverAvailability').value==='online';save();render();});
+$('locate').addEventListener('click',()=>{if(!navigator.geolocation){$('gpsResult').textContent='Géolocalisation non prise en charge.';return;}$('gpsResult').textContent='Recherche de la position…';navigator.geolocation.getCurrentPosition(p=>{$('gpsResult').textContent=`Position : ${p.coords.latitude.toFixed(5)}, ${p.coords.longitude.toFixed(5)} · précision ${Math.round(p.coords.accuracy)} m`;},e=>{$('gpsResult').textContent='Position indisponible : autorise la localisation dans les réglages du navigateur.';},{enableHighAccuracy:true,timeout:10000});});
+updateFare();render();
+</script>
+</body></html>
